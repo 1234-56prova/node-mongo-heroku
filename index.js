@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 
@@ -11,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const uri = "mongodb+srv://Ilma:pretender@cluster0.asvv5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.asvv5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
@@ -72,6 +73,10 @@ run().catch(console.dir);
 
 app.get('/', (req, res) => {
     res.send('port 5000')
+})
+
+app.get('/hero', (req, res) => {
+    res.send('Hero meets heroku')
 })
 
 app.listen(port, () => {
